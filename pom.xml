@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.weltraumschaf.organization</groupId>
+        <artifactId>organization-parent</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>de.weltraumschaf.caythe</groupId>
+    <artifactId>grazing</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Grazing</name>
+    <description></description>
+    <url>https://github.com/Weltraumschaf/grazing</url>
+
+    <developers>
+        <developer>
+            <id>Weltraumschaf</id>
+            <name>Sven Strittmatter</name>
+            <email>ich@weltraumschaf.de</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>THE BEER-WARE LICENSE</name>
+            <url>http://www.weltraumschaf.de/the-beer-ware-license.txt</url>
+            <distribution>repo</distribution>
+            <comments>
+                LICENSE
+
+                "THE BEER-WARE LICENSE" (Revision 42):
+                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt; wrote this file.
+                As long as you retain this notice you can do whatever you want with
+                this stuff. If we meet some day, and you think this stuff is worth it,
+                you can buy me a beer in return.
+            </comments>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/Weltraumschaf/grazing/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git://github.com/Weltraumschaf/grazing.git</connection>
+        <developerConnection>scm:git:git@github.com:Weltraumschaf/grazing.git</developerConnection>
+        <url>https://github.com/Weltraumschaf/grazing.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>github-project-site</id>
+            <url>gitsite:git@github.com/Weltraumschaf/grazing.git</url>
+        </site>
+    </distributionManagement>
+
+    <ciManagement>
+        <system>jenkins</system>
+        <url>https://ci.weltraumschaf.de/job/grazing/</url>
+    </ciManagement>
+
+    <properties>
+        <project.build.version.source>1.8</project.build.version.source>
+        <project.build.version.target>1.8</project.build.version.target>
+
+        <!-- Dependency versions. -->
+        <commons.version>2.2.0</commons.version>
+        <junit-addons.version>1.4</junit-addons.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${antlr.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>${antlr.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>application</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>parse</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>validate</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.weltraumschaf.commons</groupId>
+                <artifactId>testing</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>stringtemplate</artifactId>
+                <version>${stringtemplate.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+    </build>
+</project>
