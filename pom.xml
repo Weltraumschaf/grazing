@@ -82,7 +82,7 @@
 
         <!-- Dependency versions. -->
         <commons.version>2.2.0</commons.version>
-        <junit-addons.version>1.4</junit-addons.version>
+        <jsoup.version>1.11.2</jsoup.version>
     </properties>
 
     <dependencyManagement>
@@ -130,9 +130,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>stringtemplate</artifactId>
-                <version>${stringtemplate.version}</version>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -151,6 +151,11 @@
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>validate</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
         </dependency>
 
         <dependency>
@@ -180,12 +185,6 @@
         <dependency>
             <groupId>de.weltraumschaf.commons</groupId>
             <artifactId>testing</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit-addons</groupId>
-            <artifactId>junit-addons</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

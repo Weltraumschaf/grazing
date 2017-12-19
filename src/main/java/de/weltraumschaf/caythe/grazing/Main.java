@@ -2,6 +2,10 @@ package de.weltraumschaf.caythe.grazing;
 
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
+import de.weltraumschaf.commons.jcommander.JCommanderImproved;
+import de.weltraumschaf.commons.validate.Validate;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  *
@@ -16,10 +20,7 @@ public final class Main extends InvokableAdapter {
      * Version information.
      */
     private final Version version = new Version(BASE_PACKAGE_DIR + "/version.properties");
-    /**
-     * Command line arguments.
-     */
-    private final CliOptions options = new CliOptions();
+    private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<CliOptions>("grazing", CliOptions.class);
 
     /**
      * Dedicated constructor.
@@ -42,7 +43,12 @@ public final class Main extends InvokableAdapter {
 
     @Override
     public void execute() throws Exception {
-        getIoStreams().println("Hello, world!");
+        final CliOptions opts = cliArgs.gatherOptions(getArgs());
+
+        final Document doc = Jsoup.connect(opts.getUrl()).get();
+        final String title = doc.title();
+        getIoStreams().println(title);
+
         exit(0);
     }
 }

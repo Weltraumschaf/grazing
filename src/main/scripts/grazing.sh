@@ -23,7 +23,7 @@ if test -n "$JAVA_HOME"; then
     java="$JAVA_HOME/bin/java"
 fi
 
-if [ -n "${CAYTHE_DEBUG}" ] && [ "true" == "${CAYTHE_DEBUG}" ] ; then
+if [ -n "${GRAZING_DEBUG}" ] && [ "true" == "${GRAZING_DEBUG}" ] ; then
     jvm_options=" -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 fi
 
