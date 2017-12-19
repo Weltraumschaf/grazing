@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -35,9 +36,12 @@
                 LICENSE
 
                 "THE BEER-WARE LICENSE" (Revision 42):
-                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt; wrote this file.
-                As long as you retain this notice you can do whatever you want with
-                this stuff. If we meet some day, and you think this stuff is worth it,
+                "Sven Strittmatter" &lt;weltraumschaf(at)googlemail(dot)com&gt;
+                wrote this file.
+                As long as you retain this notice you can do whatever you want
+                with
+                this stuff. If we meet some day, and you think this stuff is
+                worth it,
                 you can buy me a beer in return.
             </comments>
         </license>
@@ -49,8 +53,10 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/Weltraumschaf/grazing.git</connection>
-        <developerConnection>scm:git:git@github.com:Weltraumschaf/grazing.git</developerConnection>
+        <connection>scm:git:git://github.com/Weltraumschaf/grazing.git
+        </connection>
+        <developerConnection>scm:git:git@github.com:Weltraumschaf/grazing.git
+        </developerConnection>
         <url>https://github.com/Weltraumschaf/grazing.git</url>
         <tag>HEAD</tag>
     </scm>
@@ -70,6 +76,9 @@
     <properties>
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
+
+        <project.build.mainClass>de.weltraumschaf.caythe.grazing.Main</project.build.mainClass>
+        <project.bin.executable>grazing</project.bin.executable>
 
         <!-- Dependency versions. -->
         <commons.version>2.2.0</commons.version>
@@ -128,6 +137,157 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>application</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>jcommander</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>validate</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.weltraumschaf.commons</groupId>
+            <artifactId>testing</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit-addons</groupId>
+            <artifactId>junit-addons</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
+        <resources>
+            <resource>
+                <directory>${project.main.resources.directory}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>${project.main.resources.directory}</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>generate-binaries</id>
+                        <phase>pre-integration-test</phase>
+
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+
+                        <configuration>
+                            <target>
+                                <concat destfile="${project.build.directory}/${project.bin.executable}"
+                                        binary="yes">
+                                    <fileset
+                                            file="${project.main.scripts.directory}/${project.bin.executable}.sh"/>
+                                    <fileset
+                                            file="${project.build.directory}/${project.build.finalName}.jar"/>
+                                </concat>
+                                <chmod perm="ugo+rx">
+                                    <fileset
+                                            file="${project.build.directory}/${project.bin.executable}"/>
+                                </chmod>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>make-executable-jar</id>
+                        <phase>package</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>${project.build.mainClass}</mainClass>
+                                </manifest>
+                            </archive>
+
+                            <descriptorRefs>
+                                <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                            </descriptorRefs>
+
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>make-final-zip-with-binaries</id>
+                        <phase>post-integration-test</phase>
+
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.assembly-desciptors.directory}/binaries.xml</descriptor>
+                            </descriptors>
+
+                            <attach>true</attach>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
