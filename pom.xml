@@ -77,7 +77,7 @@
         <project.build.version.source>1.8</project.build.version.source>
         <project.build.version.target>1.8</project.build.version.target>
 
-        <project.build.mainClass>de.weltraumschaf.caythe.grazing.Main</project.build.mainClass>
+        <project.build.mainClass>de.weltraumschaf.grazing.Main</project.build.mainClass>
         <project.bin.executable>grazing</project.bin.executable>
 
         <!-- Dependency versions. -->

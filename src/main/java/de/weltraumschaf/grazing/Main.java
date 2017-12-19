@@ -1,9 +1,8 @@
-package de.weltraumschaf.caythe.grazing;
+package de.weltraumschaf.grazing;
 
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
-import de.weltraumschaf.commons.validate.Validate;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -16,6 +15,7 @@ public final class Main extends InvokableAdapter {
      */
     private static final String BASE_PACKAGE = "de.weltraumschaf.grazing";
     private static final String BASE_PACKAGE_DIR = "/" + BASE_PACKAGE.replaceAll("\\.", "/");
+    private static final String QUERY_URL = "https://wertpapiere.ing-diba.de/DE/Showpage.aspx?pageID=31&ISIN=%s";
     /**
      * Version information.
      */
@@ -45,10 +45,21 @@ public final class Main extends InvokableAdapter {
     public void execute() throws Exception {
         final CliOptions opts = cliArgs.gatherOptions(getArgs());
 
-        final Document doc = Jsoup.connect(opts.getUrl()).get();
+        if (opts.isVersion()) {
+            version.load();
+            getIoStreams().println(String.format("Version: %s", version.getVersion()));
+            exit(0);
+            return;
+        }
+
+        final Document doc = Jsoup.connect(makeUrl(opts.getIsin())).get();
         final String title = doc.title();
         getIoStreams().println(title);
 
         exit(0);
+    }
+
+    private String makeUrl(final String isin) {
+        return String.format(QUERY_URL, isin);
     }
 }

@@ -1,4 +1,4 @@
-package de.weltraumschaf.caythe.grazing;
+package de.weltraumschaf.grazing;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
@@ -13,6 +13,10 @@ import java.util.Objects;
 public final class CliOptions {
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
+    @Parameter(names = {"-v", "--version"}, description = "Version.", help = true)
+    private boolean version;
+
+    @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-h", "--help"}, description = "Show help.", help = true)
     private boolean help;
 
@@ -21,8 +25,12 @@ public final class CliOptions {
     private boolean debug;
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-u","--url"}, description = "Scrape URL.", required = true)
-    private String url;
+    @Parameter(names = {"-i","--isin"}, description = "Scrape the ISIN URL.", required = true)
+    private String isin;
+
+    boolean isVersion() {
+        return version;
+    }
 
     final boolean isHelp() {
         return help;
@@ -32,8 +40,8 @@ public final class CliOptions {
         return debug;
     }
 
-    String getUrl() {
-        return url;
+    String getIsin() {
+        return isin;
     }
 
     @Override
@@ -43,22 +51,24 @@ public final class CliOptions {
         }
 
         final CliOptions that = (CliOptions) o;
-        return help == that.help &&
+        return version == that.version &&
+            help == that.help &&
             debug == that.debug &&
-            Objects.equals(url, that.url);
+            Objects.equals(isin, that.isin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(help, debug, url);
+        return Objects.hash(version, help, debug, isin);
     }
 
     @Override
     public String toString() {
         return "CliOptions{" +
-            "help=" + help +
+            "version=" + version +
+            ", help=" + help +
             ", debug=" + debug +
-            ", url='" + url + '\'' +
+            ", isin='" + isin + '\'' +
             '}';
     }
 }
