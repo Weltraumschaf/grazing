@@ -31,20 +31,28 @@ final class Extractor {
         }
 
         final Wertpapier.Builder builder = Wertpapier.Builder.create();
-        builder.setName(doc.title());
-        final Wertpapier product = builder.build();
+        extractName(doc, builder);
+        extractVerteilungNachBranchen(doc, builder);
 
+        final Wertpapier product = builder.build();
         io.println(product.getName());
 
-        final Elements rows = doc.select("table.share-holders tr");
-        for (Element row : rows) {
-            io.println(row.toString());
-        }
-
-        return null;
+        return product;
     }
 
     private String makeUrl(final String isin) {
         return String.format(QUERY_URL, isin);
     }
+
+    private void extractName(final Document doc, final Wertpapier.Builder builder) {
+        builder.setName(doc.title());
+    }
+
+    private void extractVerteilungNachBranchen(final Document doc, final Wertpapier.Builder builder) {
+        final Elements rows = doc.select("table.share-holders tr");
+        for (Element row : rows) {
+            io.println(row.toString());
+        }
+    }
+
 }
