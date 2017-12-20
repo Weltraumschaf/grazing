@@ -5,6 +5,8 @@ import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -55,6 +57,11 @@ public final class Main extends InvokableAdapter {
         final Document doc = Jsoup.connect(makeUrl(opts.getIsin())).get();
         final String title = doc.title();
         getIoStreams().println(title);
+
+        final Elements rows = doc.select("table.share-holders tr");
+        for (Element row : rows) {
+            getIoStreams().println(row.toString());
+        }
 
         exit(0);
     }
