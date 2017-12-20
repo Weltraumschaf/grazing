@@ -17,7 +17,7 @@ public final class Main extends InvokableAdapter {
      */
     private static final String BASE_PACKAGE = "de.weltraumschaf.grazing";
     private static final String BASE_PACKAGE_DIR = "/" + BASE_PACKAGE.replaceAll("\\.", "/");
-    private static final String QUERY_URL = "https://wertpapiere.ing-diba.de/DE/Showpage.aspx?pageID=31&ISIN=%s";
+
     /**
      * Version information.
      */
@@ -54,19 +54,10 @@ public final class Main extends InvokableAdapter {
             return;
         }
 
-        final Document doc = Jsoup.connect(makeUrl(opts.getIsin())).get();
-        final String title = doc.title();
-        getIoStreams().println(title);
-
-        final Elements rows = doc.select("table.share-holders tr");
-        for (Element row : rows) {
-            getIoStreams().println(row.toString());
-        }
+        new Extractor(getIoStreams()).extract(opts.getIsin());
 
         exit(0);
     }
 
-    private String makeUrl(final String isin) {
-        return String.format(QUERY_URL, isin);
-    }
+
 }
