@@ -2,13 +2,14 @@ package de.weltraumschaf.grazing.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class Position {
     private final String name;
-    private final float prozent;
+    private final BigDecimal prozent;
 
-    public Position(final String name, final float prozent) {
+    public Position(final String name, final BigDecimal prozent) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.prozent = prozent;
@@ -18,7 +19,7 @@ public final class Position {
         return name;
     }
 
-    public float getProzent() {
+    public BigDecimal getProzent() {
         return prozent;
     }
 
@@ -29,7 +30,7 @@ public final class Position {
         }
 
         final Position position = (Position) o;
-        return prozent == position.prozent &&
+        return Objects.equals(prozent, position.prozent) &&
             Objects.equals(name, position.name);
     }
 

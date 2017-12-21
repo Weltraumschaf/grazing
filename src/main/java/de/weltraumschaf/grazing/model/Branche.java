@@ -2,13 +2,14 @@ package de.weltraumschaf.grazing.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public final class Branche {
     private final String name;
-    private final float prozent;
+    private final BigDecimal prozent;
 
-    public Branche(final String name, final float prozent) {
+    public Branche(final String name, final BigDecimal prozent) {
         super();
         this.name = Validate.notEmpty(name, "name");
         this.prozent = prozent;
@@ -18,7 +19,7 @@ public final class Branche {
         return name;
     }
 
-    public float getProzent() {
+    public BigDecimal getProzent() {
         return prozent;
     }
 
@@ -29,7 +30,7 @@ public final class Branche {
         }
 
         final Branche that = (Branche) o;
-        return prozent == that.prozent &&
+        return Objects.equals(prozent, that.prozent) &&
             Objects.equals(name, that.name);
     }
 

@@ -6,25 +6,16 @@ import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.grazing.formatter.CliTextFormatter;
 import de.weltraumschaf.grazing.formatter.Formatter;
 import de.weltraumschaf.grazing.model.Wertpapier;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *
  */
 public final class Main extends InvokableAdapter {
-    /**
-     * The base package name of the whole application.
-     */
-    private static final String BASE_PACKAGE = "de.weltraumschaf.grazing";
-    private static final String BASE_PACKAGE_DIR = "/" + BASE_PACKAGE.replaceAll("\\.", "/");
 
     /**
      * Version information.
      */
-    private final Version version = new Version(BASE_PACKAGE_DIR + "/version.properties");
+    private final Version version = new Version(Constants.BASE_PACKAGE_DIR + "/version.properties");
     private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<CliOptions>("grazing", CliOptions.class);
 
     /**
