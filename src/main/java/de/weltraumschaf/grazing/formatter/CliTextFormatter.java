@@ -33,6 +33,6 @@ public final class CliTextFormatter implements Formatter {
     public String format(final Collection<Wertpapier> ws) {
         return ws.stream()
             .map(this::format)
-            .collect(Collectors.joining("\n====\n\n"));
+            .collect(Collectors.joining("----\n\n"));
     }
 }
