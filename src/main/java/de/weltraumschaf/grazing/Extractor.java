@@ -60,7 +60,7 @@ final class Extractor {
     }
 
     private long newRandomSleep() {
-        return 50 + rnd.nextLong() % 500;
+        return rnd.nextInt(500 - 50 + 1) + 50;
     }
 
     private String makeUrl(final String isin) {
@@ -121,8 +121,8 @@ final class Extractor {
         final Elements tables = doc.select("table.share-holders");
 
         if (tables.size() != 6) {
-            throw new IllegalStateException(
-                String.format("We expect exactly six share holders tables in the HTML! Given was %s.", tables.size()));
+            debug("We expect exactly six share holders tables in the HTML! Given was %s.", tables.size());
+            return;
         }
 
         extractBranchen(tables, builder);

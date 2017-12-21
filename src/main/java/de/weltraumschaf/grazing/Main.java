@@ -1,5 +1,6 @@
 package de.weltraumschaf.grazing;
 
+import de.weltraumschaf.commons.application.ApplicationException;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
@@ -7,7 +8,14 @@ import de.weltraumschaf.grazing.formatter.CliTextFormatter;
 import de.weltraumschaf.grazing.formatter.Formatter;
 import de.weltraumschaf.grazing.model.Wertpapier;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -65,10 +73,23 @@ public final class Main extends InvokableAdapter {
         exit(0);
     }
 
-    private Collection<Wertpapier> extract(final CliOptions opts) {
-        final Extractor extractor = new Extractor(getIoStreams(), opts);
-        return extractor.extract(opts.getIsin());
-    }
+    private Collection<Wertpapier> extract(final CliOptions opts) throws ApplicationException {
+        final Collection<String> isins = new ArrayList<>(opts.getIsin());
 
+        if (!opts.getFile().isEmpty()) {
+            final FileReader reader = new FileReader();
+            try {
+                isins.addAll(reader.readLines(Paths.get(opts.getFile())));
+            } catch (IOException e) {
+                throw new ApplicationException(ExitCodes.FATAL, String.format("Can't read ISIN file %s!", opts.getFile()));
+            }
+        }
+
+        if (isins.isEmpty()) {
+            throw new ApplicationException(ExitCodes.FATAL, "No ISINs given to scrape!");
+        }
+
+        return new Extractor(getIoStreams(), opts).extract(isins);
+    }
 
 }

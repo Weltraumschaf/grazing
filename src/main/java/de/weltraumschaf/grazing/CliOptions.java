@@ -4,6 +4,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,8 +28,12 @@ public final class CliOptions {
     private boolean debug;
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-i","--isin"}, description = "Scrape the ISIN URL.", required = true)
+    @Parameter(names = {"-i","--isin"}, description = "Scrape the ISIN URL.")
     private List<String> isin = new ArrayList<>();
+
+    @SuppressWarnings( {"CanBeFinal", "unused"})
+    @Parameter(names = {"-f","--file"}, description = "Give file with ISINs.")
+    private String file = "";
 
     boolean isVersion() {
         return version;
@@ -43,7 +48,11 @@ public final class CliOptions {
     }
 
     List<String> getIsin() {
-        return isin;
+        return Collections.unmodifiableList(isin);
+    }
+
+    String getFile() {
+        return file;
     }
 
     @Override
@@ -56,12 +65,13 @@ public final class CliOptions {
         return version == that.version &&
             help == that.help &&
             debug == that.debug &&
-            Objects.equals(isin, that.isin);
+            Objects.equals(isin, that.isin) &&
+            Objects.equals(file, that.file);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(version, help, debug, isin);
+        return Objects.hash(version, help, debug, isin, file);
     }
 
     @Override
@@ -70,7 +80,8 @@ public final class CliOptions {
             "version=" + version +
             ", help=" + help +
             ", debug=" + debug +
-            ", isin='" + isin + '\'' +
+            ", isin=" + isin +
+            ", file='" + file + '\'' +
             '}';
     }
 }

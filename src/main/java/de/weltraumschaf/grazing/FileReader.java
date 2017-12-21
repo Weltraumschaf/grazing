@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class FileReader {
@@ -24,12 +24,12 @@ public final class FileReader {
             return readLines(input).stream().collect(Collectors.joining("\n"));
     }
 
-    public Collection<String> readLines(final Path path) throws IOException {
+    public List<String> readLines(final Path path) throws IOException {
         try (final InputStream input = Files.newInputStream(Validate.notNull(path, "path"))) {
             return readLines(input);
         }
     }
-    public Collection<String> readLines(final InputStream input) throws IOException {
+    public List<String> readLines(final InputStream input) throws IOException {
         try (final BufferedReader reader = createReader(input)) {
             return reader.lines().collect(Collectors.toList());
         }
