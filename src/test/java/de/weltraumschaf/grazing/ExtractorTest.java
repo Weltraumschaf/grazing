@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mock;
 
 public class ExtractorTest {
 
-    private final Extractor sut = new Extractor(mock(IO.class));
+    private final Extractor sut = new Extractor(mock(IO.class), new CliOptions());
 
     @Test
     public void parsePercent() {

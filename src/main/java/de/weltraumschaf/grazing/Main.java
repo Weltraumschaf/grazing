@@ -57,12 +57,17 @@ public final class Main extends InvokableAdapter {
             return;
         }
 
-        final Collection<Wertpapier> extracted = new Extractor(getIoStreams()).extract(opts.getIsin());
+        final Collection<Wertpapier> extracted = extract(opts);
 
         final Formatter formatter = new CliTextFormatter();
         getIoStreams().print(formatter.format(extracted));
 
         exit(0);
+    }
+
+    private Collection<Wertpapier> extract(final CliOptions opts) {
+        final Extractor extractor = new Extractor(getIoStreams(), opts);
+        return extractor.extract(opts.getIsin());
     }
 
 

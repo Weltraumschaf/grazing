@@ -12,15 +12,21 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 final class Extractor {
     private static final String QUERY_URL = "https://wertpapiere.ing-diba.de/DE/Showpage.aspx?pageID=31&ISIN=%s";
+    private final Random rnd = new Random();
     private final IO io;
+    private final CliOptions opts;
+    private long sleep;
 
-    Extractor(final IO io) {
+    Extractor(final IO io, final CliOptions opts) {
         super();
         this.io = Validate.notNull(io, "io");
+        this.opts = Validate.notNull(opts, "opts");
     }
 
     Collection<Wertpapier> extract(final Collection<String> isins) {
@@ -28,10 +34,18 @@ final class Extractor {
     }
 
     Wertpapier extract(final String isin) {
+        try {
+            debug("Waiting %d ms", sleep);
+            Thread.sleep(sleep);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+
         final String url = makeUrl(isin);
         final Document doc;
 
         try {
+            debug("Fetching URL %s", url);
             doc = Jsoup.connect(url).get();
         } catch (IOException e) {
             throw new RuntimeException(String.format("Can't open URL '%s'!", url), e);
@@ -43,7 +57,12 @@ final class Extractor {
         extractName(doc, builder);
         extractShareHolders(doc, builder);
 
+        sleep = newRandomSleep();
         return builder.build();
+    }
+
+    private long newRandomSleep() {
+        return 50 + rnd.nextLong() % 500;
     }
 
     private String makeUrl(final String isin) {
@@ -164,6 +183,12 @@ final class Extractor {
 
         final String beforePercentSign = trimmed.substring(0, trimmed.indexOf('%'));
         return new BigDecimal(beforePercentSign.replace(',', '.'));
+    }
+
+    private void debug(final String msg, final Object... args) {
+        if (opts.isDebug()) {
+            io.println(String.format(msg, args));
+        }
     }
 
     private static class KeyValuePair {
