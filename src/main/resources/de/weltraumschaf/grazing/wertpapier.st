@@ -1,7 +1,6 @@
 # <w.name>
 
 ISIN: <w.isin><\ >
-WKN:  <w.wkn><\ >
 
 Fondsoberkategorie: <w.fondsoberkategorie><\ >
 Unterkategorie:     <w.unterkategorie><\ >

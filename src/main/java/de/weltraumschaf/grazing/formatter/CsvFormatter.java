@@ -10,7 +10,6 @@ public final class CsvFormatter implements Formatter {
 
     private static final Collection<String> HEADER_NAMES = Arrays.asList("Name",
         "ISIN",
-        "WKN",
         "Fondsoberkategorie",
         "Unterkategorie",
         "Fondsgesellschaft",
@@ -31,8 +30,6 @@ public final class CsvFormatter implements Formatter {
         return new StringBuilder().append(wrapWithWuotes(w.getName()))
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getIsin()))
-            .append(FIELD_SEPARATOR)
-            .append(wrapWithWuotes(w.getWkn()))
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getFondsoberkategorie()))
             .append(FIELD_SEPARATOR)

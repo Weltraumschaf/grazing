@@ -50,13 +50,18 @@ final class Extractor {
         }
 
         final Wertpapier.Builder builder = Wertpapier.Builder.create();
-        builder.setUrl(url);
-        extractData(doc, builder);
+        builder.setIsin(isin).setUrl(url);
         extractName(doc, builder);
+        extractData(doc, builder);
         extractShareHolders(doc, builder);
 
         sleep = newRandomSleep();
         return builder.build();
+    }
+
+
+    private void extractName(final Document doc, final Wertpapier.Builder builder) {
+        builder.setName(doc.select("div.sh-title").text());
     }
 
     private long newRandomSleep() {
@@ -110,11 +115,6 @@ final class Extractor {
                         break;
                 }
             });
-
-    }
-
-    private void extractName(final Document doc, final Wertpapier.Builder builder) {
-        builder.setName(doc.select("div.sh-title").text());
     }
 
     private void extractShareHolders(final Document doc, final Wertpapier.Builder builder) {
