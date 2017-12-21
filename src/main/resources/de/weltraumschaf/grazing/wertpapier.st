@@ -1,11 +1,14 @@
 # <w.name>
 
+ISIN: <w.isin><\ >
+WKN:  <w.wkn><\ >
+
 Fondsoberkategorie: <w.fondsoberkategorie><\ >
 Unterkategorie:     <w.unterkategorie><\ >
 Fondsgesellschaft:  <w.fondsgesellschaft><\ >
 url:                <w.url><\ >
 
-Gesamtkosten:      <w.gesamtkosten> %<\ >
+Gesamtkosten p.a.: <w.gesamtkosten> %<\ >
 Fondswaehrung:     <w.fondswaehrung.displayValue><\ >
 Fondsvermoegen:    <w.fondsvermoegen><\ >
 Auflagedatum:      <w.auflagedatum><\ >

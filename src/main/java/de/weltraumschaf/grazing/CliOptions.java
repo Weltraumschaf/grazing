@@ -35,6 +35,10 @@ public final class CliOptions {
     @Parameter(names = {"-f","--file"}, description = "Give file with ISINs.")
     private String file = "";
 
+    @SuppressWarnings( {"CanBeFinal", "unused"})
+    @Parameter(names = {"-c","--csv"}, description = "Write result as CSV to given file.")
+    private String csv = "";
+
     boolean isVersion() {
         return version;
     }
@@ -55,6 +59,10 @@ public final class CliOptions {
         return file;
     }
 
+    String getCsv() {
+        return csv;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (!(o instanceof CliOptions)) {
@@ -66,12 +74,13 @@ public final class CliOptions {
             help == that.help &&
             debug == that.debug &&
             Objects.equals(isin, that.isin) &&
-            Objects.equals(file, that.file);
+            Objects.equals(file, that.file) &&
+            Objects.equals(csv, that.csv);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(version, help, debug, isin, file);
+        return Objects.hash(version, help, debug, isin, file, csv);
     }
 
     @Override
@@ -82,6 +91,7 @@ public final class CliOptions {
             ", debug=" + debug +
             ", isin=" + isin +
             ", file='" + file + '\'' +
+            ", csv='" + csv + '\'' +
             '}';
     }
 }

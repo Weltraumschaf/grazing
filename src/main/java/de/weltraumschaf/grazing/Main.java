@@ -5,11 +5,13 @@ import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
 import de.weltraumschaf.grazing.formatter.CliTextFormatter;
+import de.weltraumschaf.grazing.formatter.CsvFormatter;
 import de.weltraumschaf.grazing.formatter.Formatter;
 import de.weltraumschaf.grazing.model.Wertpapier;
 
 import java.io.IOError;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,8 +69,12 @@ public final class Main extends InvokableAdapter {
 
         final Collection<Wertpapier> extracted = extract(opts);
 
-        final Formatter formatter = new CliTextFormatter();
-        getIoStreams().print(formatter.format(extracted));
+        if (opts.getCsv().isEmpty()) {
+            getIoStreams().print(new CliTextFormatter().format(extracted));
+        } else {
+            final byte[] content = new CsvFormatter().format(extracted).getBytes(Constants.DEFAULT_CHARSET);
+            Files.write(Paths.get(opts.getCsv()), content);
+        }
 
         exit(0);
     }

@@ -11,6 +11,8 @@ import java.util.Objects;
 public final class Wertpapier {
 
     private String name;
+    private String isin;
+    private String wkn;
     private BigDecimal gesamtkosten;
     private Waehrung fondswaehrung;
     private String fondsvermoegen;
@@ -32,6 +34,14 @@ public final class Wertpapier {
 
     public String getName() {
         return name;
+    }
+
+    public String getIsin() {
+        return isin;
+    }
+
+    public String getWkn() {
+        return wkn;
     }
 
     public BigDecimal getGesamtkosten() {
@@ -99,6 +109,8 @@ public final class Wertpapier {
         final Wertpapier that = (Wertpapier) o;
         return sparplan == that.sparplan &&
             Objects.equals(name, that.name) &&
+            Objects.equals(isin, that.isin) &&
+            Objects.equals(wkn, that.wkn) &&
             Objects.equals(gesamtkosten, that.gesamtkosten) &&
             fondswaehrung == that.fondswaehrung &&
             Objects.equals(fondsvermoegen, that.fondsvermoegen) &&
@@ -116,13 +128,15 @@ public final class Wertpapier {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, gesamtkosten, fondswaehrung, fondsvermoegen, auflagedatum, sparplan, url, nachbildung, ertragsverwendung, fondsoberkategorie, unterkategorie, fondsgesellschaft, verteilungNachBranchen, verteilungNachLaenderRegionen, greosstePositionen);
+        return Objects.hash(name, isin, wkn, gesamtkosten, fondswaehrung, fondsvermoegen, auflagedatum, sparplan, url, nachbildung, ertragsverwendung, fondsoberkategorie, unterkategorie, fondsgesellschaft, verteilungNachBranchen, verteilungNachLaenderRegionen, greosstePositionen);
     }
 
     @Override
     public String toString() {
         return "Wertpapier{" +
             "name='" + name + '\'' +
+            ", isin='" + isin + '\'' +
+            ", wkn='" + wkn + '\'' +
             ", gesamtkosten=" + gesamtkosten +
             ", fondswaehrung=" + fondswaehrung +
             ", fondsvermoegen='" + fondsvermoegen + '\'' +
@@ -143,6 +157,8 @@ public final class Wertpapier {
     public static final class Builder {
         private static final String NA = "n/a";
         private String name = NA;
+        private String isin = NA;
+        private String wkn = NA;
         private BigDecimal gesamtkosten = new BigDecimal(0);
         private Waehrung fondswaehrung = Waehrung.NA;
         private String fondsvermoegen = NA;
@@ -169,6 +185,8 @@ public final class Wertpapier {
         public Wertpapier build() {
             final Wertpapier product = new Wertpapier();
             product.name = name;
+            product.isin = isin;
+            product.wkn = wkn;
             product.gesamtkosten = gesamtkosten;
             product.fondswaehrung = fondswaehrung;
             product.fondsvermoegen = fondsvermoegen;
@@ -178,8 +196,8 @@ public final class Wertpapier {
             product.nachbildung = nachbildung;
             product.ertragsverwendung = ertragsverwendung;
             product.fondsoberkategorie = fondsoberkategorie;
-            product.unterkategorie =unterkategorie;
-            product.fondsgesellschaft=fondsgesellschaft;
+            product.unterkategorie = unterkategorie;
+            product.fondsgesellschaft = fondsgesellschaft;
             product.verteilungNachBranchen.addAll(verteilungNachBranchen);
             product.verteilungNachLaenderRegionen.addAll(verteilungNachLaenderRegionen);
             product.greosstePositionen.addAll(greosstePositionen);
@@ -188,6 +206,16 @@ public final class Wertpapier {
 
         public Builder setName(final String name) {
             this.name = name;
+            return this;
+        }
+
+        public Builder setIsin(final String isin) {
+            this.isin = Validate.notNull(isin, "isin");
+            return this;
+        }
+
+        public Builder setWkn(final String wkn) {
+            this.wkn = Validate.notEmpty(wkn, "wkn");
             return this;
         }
 

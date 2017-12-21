@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class FileReader {
+
     public String readFile(final Path path) throws IOException {
         try (final InputStream input = Files.newInputStream(Validate.notNull(path, "path"))) {
             return readFile(input);
@@ -36,6 +37,6 @@ public final class FileReader {
     }
 
     private BufferedReader createReader(final InputStream input) {
-        return new BufferedReader(new InputStreamReader(input, Charset.forName(StandardCharsets.UTF_8.name())));
+        return new BufferedReader(new InputStreamReader(input, Constants.DEFAULT_CHARSET));
     }
 }
