@@ -1,12 +1,12 @@
 package de.weltraumschaf.grazing.formatter;
 
 import de.weltraumschaf.grazing.Constants;
+import de.weltraumschaf.grazing.FileReader;
 import de.weltraumschaf.grazing.model.Wertpapier;
 import org.stringtemplate.v4.ST;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -19,10 +19,11 @@ public final class CliTextFormatter implements Formatter {
     }
 
     private String readTemplate() {
+        final FileReader reader = new FileReader();
+
         try (
-            final InputStream input = getClass().getResourceAsStream(Constants.BASE_PACKAGE_DIR + "/wertpapier.st");
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(input, Charset.forName(StandardCharsets.UTF_8.name())))) {
-            return reader.lines().collect(Collectors.joining("\n"));
+            final InputStream input = getClass().getResourceAsStream(Constants.BASE_PACKAGE_DIR + "/wertpapier.st")) {
+            return reader.readFile(input);
         } catch (IOException e) {
             throw new RuntimeException("Cant read template!");
         }
