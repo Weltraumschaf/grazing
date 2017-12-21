@@ -11,7 +11,7 @@ Gesamtkosten p.a.: <w.gesamtkosten> %<\ >
 Fondswaehrung:     <w.fondswaehrung.displayValue><\ >
 Fondsvermoegen:    <w.fondsvermoegen><\ >
 Auflagedatum:      <w.auflagedatum><\ >
-Sparplan:          <if(w.sparplan)>ja<else>nein<endif><\ >
+Sparplan:          <w.sparplan><\ >
 Nachbildung:       <w.nachbildung><\ >
 Ertragsverwendung: <w.ertragsverwendung><\ >
 

@@ -2,7 +2,6 @@ package de.weltraumschaf.grazing.formatter;
 
 import de.weltraumschaf.grazing.model.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -50,7 +49,7 @@ public final class CsvFormatter implements Formatter {
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getAuflagedatum()))
             .append(FIELD_SEPARATOR)
-            .append(wrapWithWuotes(w.isSparplan() ? "ja" : "nein"))
+            .append(wrapWithWuotes(w.getSparplan()))
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getNachbildung()))
             .append(FIELD_SEPARATOR)

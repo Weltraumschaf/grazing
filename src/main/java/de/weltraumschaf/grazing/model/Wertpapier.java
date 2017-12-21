@@ -16,7 +16,7 @@ public final class Wertpapier {
     private Waehrung fondswaehrung;
     private String fondsvermoegen;
     private String auflagedatum;
-    private boolean sparplan;
+    private String sparplan;
     private String url;
     private String nachbildung;
     private String ertragsverwendung;
@@ -55,7 +55,7 @@ public final class Wertpapier {
         return auflagedatum;
     }
 
-    public boolean isSparplan() {
+    public String getSparplan() {
         return sparplan;
     }
 
@@ -155,7 +155,7 @@ public final class Wertpapier {
         private Waehrung fondswaehrung = Waehrung.NA;
         private String fondsvermoegen = NA;
         private String auflagedatum = NA;
-        private boolean sparplan;
+        private String sparplan = NA;
         private String url = NA;
         private String nachbildung = NA;
         private String ertragsverwendung = NA;
@@ -225,8 +225,8 @@ public final class Wertpapier {
             return this;
         }
 
-        public Builder setSparplan(final boolean sparplan) {
-            this.sparplan = sparplan;
+        public Builder setSparplan(final String sparplan) {
+            this.sparplan = Validate.notEmpty(sparplan, "sparplan");
             return this;
         }
 

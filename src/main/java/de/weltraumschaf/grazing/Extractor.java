@@ -81,7 +81,7 @@ final class Extractor {
             .forEach(pair -> {
                 switch (pair.key) {
                     case "Sparplan möglich":
-                        builder.setSparplan("ja".equalsIgnoreCase(pair.value));
+                        builder.setSparplan(pair.value);
                         break;
                     case "Fondsoberkategorie":
                         builder.setFondsoberkategorie(pair.value);
