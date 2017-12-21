@@ -7,6 +7,8 @@ import de.weltraumschaf.grazing.formatter.CliTextFormatter;
 import de.weltraumschaf.grazing.formatter.Formatter;
 import de.weltraumschaf.grazing.model.Wertpapier;
 
+import java.util.Collection;
+
 /**
  *
  */
@@ -55,7 +57,7 @@ public final class Main extends InvokableAdapter {
             return;
         }
 
-        final Wertpapier extracted = new Extractor(getIoStreams()).extract(opts.getIsin());
+        final Collection<Wertpapier> extracted = new Extractor(getIoStreams()).extract(opts.getIsin());
 
         final Formatter formatter = new CliTextFormatter();
         getIoStreams().print(formatter.format(extracted));

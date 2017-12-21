@@ -3,6 +3,8 @@ package de.weltraumschaf.grazing;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,7 +28,7 @@ public final class CliOptions {
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-i","--isin"}, description = "Scrape the ISIN URL.", required = true)
-    private String isin;
+    private List<String> isin = new ArrayList<>();
 
     boolean isVersion() {
         return version;
@@ -40,7 +42,7 @@ public final class CliOptions {
         return debug;
     }
 
-    String getIsin() {
+    List<String> getIsin() {
         return isin;
     }
 

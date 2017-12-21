@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 final class Extractor {
     private static final String QUERY_URL = "https://wertpapiere.ing-diba.de/DE/Showpage.aspx?pageID=31&ISIN=%s";
@@ -21,14 +23,18 @@ final class Extractor {
         this.io = Validate.notNull(io, "io");
     }
 
-    Wertpapier extract(final String isin) throws ApplicationException {
+    Collection<Wertpapier> extract(final Collection<String> isins) {
+        return isins.stream().map(isin -> extract(isin)).collect(Collectors.toList());
+    }
+
+    Wertpapier extract(final String isin) {
         final String url = makeUrl(isin);
         final Document doc;
 
         try {
             doc = Jsoup.connect(url).get();
         } catch (IOException e) {
-            throw new ApplicationException(ExitCodes.FATAL, String.format("Can't open URL '%s'!", url), e);
+            throw new RuntimeException(String.format("Can't open URL '%s'!", url), e);
         }
 
         final Wertpapier.Builder builder = Wertpapier.Builder.create();
@@ -80,7 +86,10 @@ final class Extractor {
                         builder.setFondsgesellschaft(pair.value);
                         break;
                     case "Gesamtkosten (TER) p.a.":
-                        builder.setGesamtkosten(parsePercent(pair.value));
+                    case "Verwaltungsvergütung p.a.":
+                        if (!"-".equals(pair.value)) {
+                            builder.setGesamtkosten(parsePercent(pair.value));
+                        }
                         break;
                 }
             });

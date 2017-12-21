@@ -3,7 +3,6 @@ package de.weltraumschaf.grazing.formatter;
 import de.weltraumschaf.grazing.Constants;
 import de.weltraumschaf.grazing.model.Wertpapier;
 import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.StringRenderer;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -14,12 +13,12 @@ import java.util.stream.Collectors;
 public final class CliTextFormatter implements Formatter {
     @Override
     public String format(final Wertpapier w) {
-        final ST template = new ST(readTempate());
+        final ST template = new ST(readTemplate());
         template.add("w", w);
         return template.render();
     }
 
-    private String readTempate() {
+    private String readTemplate() {
         try (
             final InputStream input = getClass().getResourceAsStream(Constants.BASE_PACKAGE_DIR + "/wertpapier.st");
             final BufferedReader reader = new BufferedReader(new InputStreamReader(input, Charset.forName(StandardCharsets.UTF_8.name())))) {
@@ -32,7 +31,7 @@ public final class CliTextFormatter implements Formatter {
     @Override
     public String format(final Collection<Wertpapier> ws) {
         return ws.stream()
-            .map(Wertpapier::toString)
-            .collect(Collectors.joining("\n"));
+            .map(this::format)
+            .collect(Collectors.joining("\n====\n\n"));
     }
 }
