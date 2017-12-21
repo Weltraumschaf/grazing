@@ -5,7 +5,7 @@ import de.weltraumschaf.commons.validate.Validate;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public final class LandRegion {
+public final class LandRegion implements ShareHolder {
     private final String name;
     private final BigDecimal prozent;
 
@@ -15,10 +15,12 @@ public final class LandRegion {
         this.prozent = prozent;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public BigDecimal getProzent() {
         return prozent;
     }

@@ -1,7 +1,8 @@
 package de.weltraumschaf.grazing.formatter;
 
-import de.weltraumschaf.grazing.model.Wertpapier;
+import de.weltraumschaf.grazing.model.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -20,10 +21,14 @@ public final class CsvFormatter implements Formatter {
         "Sparplan",
         "Nachbildung",
         "Ertragsverwendung",
+        "Verteilung nach Branchen",
+        "Verteilung nach Länder/Regionen",
+        "größte Positionen",
+        "Bemerkungen",
         "url");
     private static final String FIELD_SEPARATOR = ",";
     private static final char FIELD_DELIMITER = '"';
-    private static final char ROW_SEPARATOR = '\n';
+    private static final String ROW_SEPARATOR = "\n";
 
     @Override
     public String format(final Wertpapier w) {
@@ -51,9 +56,30 @@ public final class CsvFormatter implements Formatter {
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getErtragsverwendung()))
             .append(FIELD_SEPARATOR)
+            .append(wrapWithWuotes(
+                w.getVerteilungNachBranchen()
+                    .stream()
+                    .map(this::format).collect(Collectors.joining(ROW_SEPARATOR))))
+            .append(FIELD_SEPARATOR)
+            .append(wrapWithWuotes(
+                w.getVerteilungNachLaenderRegionen()
+                    .stream()
+                    .map(this::format).collect(Collectors.joining(ROW_SEPARATOR))))
+            .append(FIELD_SEPARATOR)
+            .append(wrapWithWuotes(
+                w.getGreosstePositionen()
+                    .stream()
+                    .map(this::format).collect(Collectors.joining(ROW_SEPARATOR))))
+            .append(FIELD_SEPARATOR)
+            // Bemerkungen.
+            .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getUrl()))
             .append(ROW_SEPARATOR)
             .toString();
+    }
+
+    private String format(final ShareHolder s) {
+        return "- " + s.getName() + ' ' + s.getProzent() + " %";
     }
 
     @Override
