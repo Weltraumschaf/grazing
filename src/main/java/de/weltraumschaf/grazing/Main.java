@@ -3,6 +3,9 @@ package de.weltraumschaf.grazing;
 import de.weltraumschaf.commons.application.InvokableAdapter;
 import de.weltraumschaf.commons.application.Version;
 import de.weltraumschaf.commons.jcommander.JCommanderImproved;
+import de.weltraumschaf.grazing.formatter.CliTextFormatter;
+import de.weltraumschaf.grazing.formatter.Formatter;
+import de.weltraumschaf.grazing.model.Wertpapier;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -46,6 +49,7 @@ public final class Main extends InvokableAdapter {
     @Override
     public void execute() throws Exception {
         final CliOptions opts = cliArgs.gatherOptions(getArgs());
+        debug = opts.isDebug();
 
         if (opts.isVersion()) {
             version.load();
@@ -54,7 +58,16 @@ public final class Main extends InvokableAdapter {
             return;
         }
 
-        new Extractor(getIoStreams()).extract(opts.getIsin());
+        if (opts.isHelp()) {
+            getIoStreams().println("Help: TODO");
+            exit(0);
+            return;
+        }
+
+        final Wertpapier extracted = new Extractor(getIoStreams()).extract(opts.getIsin());
+
+        final Formatter formatter = new CliTextFormatter();
+        getIoStreams().print(formatter.format(extracted));
 
         exit(0);
     }
