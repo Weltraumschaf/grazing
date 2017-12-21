@@ -21,4 +21,14 @@ public enum Waehrung {
             "displayValue='" + displayValue + '\'' +
             '}';
     }
+
+    public static Waehrung forName(final String name) {
+        for (final Waehrung w : Waehrung.values()) {
+            if (w.getDisplayValue().equals(name)) {
+                return w;
+            }
+        }
+
+        return NA;
+    }
 }

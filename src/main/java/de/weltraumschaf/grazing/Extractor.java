@@ -3,10 +3,7 @@ package de.weltraumschaf.grazing;
 import de.weltraumschaf.commons.application.ApplicationException;
 import de.weltraumschaf.commons.application.IO;
 import de.weltraumschaf.commons.validate.Validate;
-import de.weltraumschaf.grazing.model.Branche;
-import de.weltraumschaf.grazing.model.LandRegion;
-import de.weltraumschaf.grazing.model.Position;
-import de.weltraumschaf.grazing.model.Wertpapier;
+import de.weltraumschaf.grazing.model.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,6 +33,7 @@ final class Extractor {
 
         final Wertpapier.Builder builder = Wertpapier.Builder.create();
         builder.setUrl(url);
+        extractData(doc, builder);
         extractName(doc, builder);
         extractShareHolders(doc, builder);
 
@@ -44,6 +42,49 @@ final class Extractor {
 
     private String makeUrl(final String isin) {
         return String.format(QUERY_URL, isin);
+    }
+
+    private void extractData(final Document doc, final Wertpapier.Builder builder) {
+        doc.select("table.product-overview tr")
+            .stream()
+            .map(row -> row.select("td"))
+            .filter(cells -> cells.size() == 2)
+            .map(cells -> new KeyValuePair(cells.get(0).text().trim(), cells.get(1).text().trim()))
+            .forEach(pair -> {
+                switch (pair.key) {
+                    case "Sparplan möglich":
+                        builder.setSparplan("ja".equalsIgnoreCase(pair.value));
+                        break;
+                    case "Fondsoberkategorie":
+                        builder.setFondsoberkategorie(pair.value);
+                        break;
+                    case "Unterkategorie":
+                        builder.setUnterkategorie(pair.value);
+                        break;
+                    case "Auflagedatum":
+                        builder.setAuflagedatum(pair.value);
+                        break;
+                    case "Fondsvermögen":
+                        builder.setFondsvermoegen(pair.value);
+                        break;
+                    case "Fondswährung":
+                        builder.setFondswaehrung(Waehrung.forName(pair.value));
+                        break;
+                    case "Nachbildung":
+                        builder.setNachbildung(pair.value);
+                        break;
+                    case "Ertragsverwendung":
+                        builder.setErtragsverwendung(pair.value);
+                        break;
+                    case "Fondsgesellschaft":
+                        builder.setFondsgesellschaft(pair.value);
+                        break;
+                    case "Gesamtkosten (TER) p.a.":
+                        builder.setGesamtkosten(parsePercent(pair.value));
+                        break;
+                }
+            });
+
     }
 
     private void extractName(final Document doc, final Wertpapier.Builder builder) {
@@ -112,7 +153,18 @@ final class Extractor {
             return new BigDecimal(0);
         }
 
-        return new BigDecimal(trimmed.replace(',', '.').replace("%", ""));
+        final String beforePercentSign = trimmed.substring(0, trimmed.indexOf('%'));
+        return new BigDecimal(beforePercentSign.replace(',', '.'));
     }
 
+    private static class KeyValuePair {
+        private final String key;
+        private final String value;
+
+        private KeyValuePair(final String key, final String value) {
+            super();
+            this.key = Validate.notEmpty(key, "key");
+            this.value = Validate.notNull(value, "value");
+        }
+    }
 }

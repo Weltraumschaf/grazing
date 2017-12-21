@@ -1,5 +1,8 @@
-Name: <w.name>
-url:  <w.url>
+Name:               <w.name>
+Fondsoberkategorie: <w.fondsoberkategorie>
+Unterkategorie:     <w.unterkategorie>
+Fondsgesellschaft:  <w.fondsgesellschaft>
+url:                <w.url>
 
 Gesamtkosten:      <w.gesamtkosten> %
 Fondswaehrung:     <w.fondswaehrung.displayValue>

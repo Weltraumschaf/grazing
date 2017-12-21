@@ -2,14 +2,16 @@ package de.weltraumschaf.grazing.model;
 
 import de.weltraumschaf.commons.validate.Validate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 public final class Wertpapier {
 
     private String name;
-    private long gesamtkosten;
+    private BigDecimal gesamtkosten;
     private Waehrung fondswaehrung;
     private String fondsvermoegen;
     private String auflagedatum;
@@ -17,6 +19,9 @@ public final class Wertpapier {
     private String url;
     private String nachbildung;
     private String ertragsverwendung;
+    private String fondsoberkategorie;
+    private String unterkategorie;
+    private String fondsgesellschaft;
     private final Collection<Branche> verteilungNachBranchen = new ArrayList<>();
     private final Collection<LandRegion> verteilungNachLaenderRegionen = new ArrayList<>();
     private final Collection<Position> greosstePositionen = new ArrayList<>();
@@ -29,7 +34,7 @@ public final class Wertpapier {
         return name;
     }
 
-    public long getGesamtkosten() {
+    public BigDecimal getGesamtkosten() {
         return gesamtkosten;
     }
 
@@ -61,6 +66,18 @@ public final class Wertpapier {
         return ertragsverwendung;
     }
 
+    public String getFondsoberkategorie() {
+        return fondsoberkategorie;
+    }
+
+    public String getUnterkategorie() {
+        return unterkategorie;
+    }
+
+    public String getFondsgesellschaft() {
+        return fondsgesellschaft;
+    }
+
     public Collection<Branche> getVerteilungNachBranchen() {
         return Collections.unmodifiableCollection(verteilungNachBranchen);
     }
@@ -73,10 +90,60 @@ public final class Wertpapier {
         return Collections.unmodifiableCollection(greosstePositionen);
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof Wertpapier)) {
+            return false;
+        }
+
+        final Wertpapier that = (Wertpapier) o;
+        return sparplan == that.sparplan &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(gesamtkosten, that.gesamtkosten) &&
+            fondswaehrung == that.fondswaehrung &&
+            Objects.equals(fondsvermoegen, that.fondsvermoegen) &&
+            Objects.equals(auflagedatum, that.auflagedatum) &&
+            Objects.equals(url, that.url) &&
+            Objects.equals(nachbildung, that.nachbildung) &&
+            Objects.equals(ertragsverwendung, that.ertragsverwendung) &&
+            Objects.equals(fondsoberkategorie, that.fondsoberkategorie) &&
+            Objects.equals(unterkategorie, that.unterkategorie) &&
+            Objects.equals(fondsgesellschaft, that.fondsgesellschaft) &&
+            Objects.equals(verteilungNachBranchen, that.verteilungNachBranchen) &&
+            Objects.equals(verteilungNachLaenderRegionen, that.verteilungNachLaenderRegionen) &&
+            Objects.equals(greosstePositionen, that.greosstePositionen);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, gesamtkosten, fondswaehrung, fondsvermoegen, auflagedatum, sparplan, url, nachbildung, ertragsverwendung, fondsoberkategorie, unterkategorie, fondsgesellschaft, verteilungNachBranchen, verteilungNachLaenderRegionen, greosstePositionen);
+    }
+
+    @Override
+    public String toString() {
+        return "Wertpapier{" +
+            "name='" + name + '\'' +
+            ", gesamtkosten=" + gesamtkosten +
+            ", fondswaehrung=" + fondswaehrung +
+            ", fondsvermoegen='" + fondsvermoegen + '\'' +
+            ", auflagedatum='" + auflagedatum + '\'' +
+            ", sparplan=" + sparplan +
+            ", url='" + url + '\'' +
+            ", nachbildung='" + nachbildung + '\'' +
+            ", ertragsverwendung='" + ertragsverwendung + '\'' +
+            ", fondsoberkategorie='" + fondsoberkategorie + '\'' +
+            ", unterkategorie='" + unterkategorie + '\'' +
+            ", fondsgesellschaft='" + fondsgesellschaft + '\'' +
+            ", verteilungNachBranchen=" + verteilungNachBranchen +
+            ", verteilungNachLaenderRegionen=" + verteilungNachLaenderRegionen +
+            ", greosstePositionen=" + greosstePositionen +
+            '}';
+    }
+
     public static final class Builder {
         private static final String NA = "n/a";
         private String name = NA;
-        private long gesamtkosten;
+        private BigDecimal gesamtkosten = new BigDecimal(0);
         private Waehrung fondswaehrung = Waehrung.NA;
         private String fondsvermoegen = NA;
         private String auflagedatum = NA;
@@ -87,6 +154,9 @@ public final class Wertpapier {
         private final Collection<Branche> verteilungNachBranchen = new ArrayList<>();
         private final Collection<LandRegion> verteilungNachLaenderRegionen = new ArrayList<>();
         private final Collection<Position> greosstePositionen = new ArrayList<>();
+        private String fondsoberkategorie;
+        private String unterkategorie;
+        private String fondsgesellschaft;
 
         private Builder() {
             super();
@@ -107,6 +177,9 @@ public final class Wertpapier {
             product.url = url;
             product.nachbildung = nachbildung;
             product.ertragsverwendung = ertragsverwendung;
+            product.fondsoberkategorie = fondsoberkategorie;
+            product.unterkategorie =unterkategorie;
+            product.fondsgesellschaft=fondsgesellschaft;
             product.verteilungNachBranchen.addAll(verteilungNachBranchen);
             product.verteilungNachLaenderRegionen.addAll(verteilungNachLaenderRegionen);
             product.greosstePositionen.addAll(greosstePositionen);
@@ -118,7 +191,7 @@ public final class Wertpapier {
             return this;
         }
 
-        public Builder setGesamtkosten(final long gesamtkosten) {
+        public Builder setGesamtkosten(final BigDecimal gesamtkosten) {
             this.gesamtkosten = Validate.notNull(gesamtkosten);
             return this;
         }
@@ -170,6 +243,21 @@ public final class Wertpapier {
 
         public Builder addPositionen(final Position position) {
             this.greosstePositionen.add(Validate.notNull(position, "position"));
+            return this;
+        }
+
+        public Builder setFondsoberkategorie(final String fondsoberkategorie) {
+            this.fondsoberkategorie = Validate.notEmpty(fondsoberkategorie, "fondsoberkategorie");
+            return this;
+        }
+
+        public Builder setUnterkategorie(final String unterkategorie) {
+            this.unterkategorie = Validate.notEmpty(unterkategorie, "unterkategorie");
+            return this;
+        }
+
+        public Builder setFondsgesellschaft(final String fondsgesellschaft) {
+            this.fondsgesellschaft = Validate.notEmpty(fondsgesellschaft, "fondsgesellschaft");
             return this;
         }
     }
