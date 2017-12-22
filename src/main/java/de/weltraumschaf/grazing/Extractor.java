@@ -28,10 +28,15 @@ final class Extractor {
     }
 
     Collection<Wertpapier> extract(final Collection<String> isins) {
+        io.print("Fetching data ");
         return isins.stream().map(isin -> extract(isin)).collect(Collectors.toList());
     }
 
     Wertpapier extract(final String isin) {
+        if (!opts.isDebug()) {
+            io.getStderr().print(".");
+        }
+
         try {
             debug("Waiting %d ms", sleep);
             Thread.sleep(sleep);
@@ -185,7 +190,7 @@ final class Extractor {
 
     private void debug(final String msg, final Object... args) {
         if (opts.isDebug()) {
-            io.println(String.format(msg, args));
+            io.getStderr().println(String.format(msg, args));
         }
     }
 

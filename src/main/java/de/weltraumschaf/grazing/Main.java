@@ -68,6 +68,8 @@ public final class Main extends InvokableAdapter {
         }
 
         final Collection<Wertpapier> extracted = extract(opts);
+        getIoStreams().println("");
+        getIoStreams().println("");
 
         if (opts.getCsv().isEmpty()) {
             getIoStreams().print(new CliTextFormatter().format(extracted));
