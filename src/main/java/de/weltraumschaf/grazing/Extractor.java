@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -96,6 +97,7 @@ final class Extractor {
                         break;
                     case "Auflagedatum":
                         builder.setAuflagedatum(pair.value);
+                        builder.setJahre(calculateJahre(pair.value));
                         break;
                     case "Fondsvermögen":
                         builder.setFondsvermoegen(pair.value);
@@ -120,6 +122,11 @@ final class Extractor {
                         break;
                 }
             });
+    }
+
+    private int calculateJahre(final String value) {
+        final int startYear = Integer.parseInt(value.substring(value.lastIndexOf('.') + 1));
+        return LocalDate.now().getYear() - startYear;
     }
 
     private void extractShareHolders(final Document doc, final Wertpapier.Builder builder) {

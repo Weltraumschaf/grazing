@@ -17,6 +17,7 @@ public final class CsvFormatter implements Formatter {
         "Fondswaehrung",
         "Fondsvermoegen",
         "Auflagedatum",
+        "Jahre",
         "Sparplan",
         "Nachbildung",
         "Ertragsverwendung",
@@ -49,6 +50,8 @@ public final class CsvFormatter implements Formatter {
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getAuflagedatum()))
             .append(FIELD_SEPARATOR)
+            .append(wrapWithWuotes(String.valueOf(w.getJahre())))
+            .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getSparplan()))
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getNachbildung()))
@@ -70,7 +73,7 @@ public final class CsvFormatter implements Formatter {
                     .stream()
                     .map(this::format).collect(Collectors.joining(ROW_SEPARATOR))))
             .append(FIELD_SEPARATOR)
-            // Bemerkungen.
+            // Bemerkungen is empty.
             .append(FIELD_SEPARATOR)
             .append(wrapWithWuotes(w.getUrl()))
             .append(ROW_SEPARATOR)

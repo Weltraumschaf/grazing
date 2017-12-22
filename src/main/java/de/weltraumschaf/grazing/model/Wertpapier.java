@@ -16,6 +16,7 @@ public final class Wertpapier {
     private Waehrung fondswaehrung;
     private String fondsvermoegen;
     private String auflagedatum;
+    private int jahre;
     private String sparplan;
     private String url;
     private String nachbildung;
@@ -53,6 +54,10 @@ public final class Wertpapier {
 
     public String getAuflagedatum() {
         return auflagedatum;
+    }
+
+    public int getJahre() {
+        return jahre;
     }
 
     public String getSparplan() {
@@ -102,13 +107,14 @@ public final class Wertpapier {
         }
 
         final Wertpapier that = (Wertpapier) o;
-        return sparplan == that.sparplan &&
+        return jahre == that.jahre &&
             Objects.equals(name, that.name) &&
             Objects.equals(isin, that.isin) &&
             Objects.equals(gesamtkosten, that.gesamtkosten) &&
             fondswaehrung == that.fondswaehrung &&
             Objects.equals(fondsvermoegen, that.fondsvermoegen) &&
             Objects.equals(auflagedatum, that.auflagedatum) &&
+            Objects.equals(sparplan, that.sparplan) &&
             Objects.equals(url, that.url) &&
             Objects.equals(nachbildung, that.nachbildung) &&
             Objects.equals(ertragsverwendung, that.ertragsverwendung) &&
@@ -122,7 +128,7 @@ public final class Wertpapier {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, isin, gesamtkosten, fondswaehrung, fondsvermoegen, auflagedatum, sparplan, url, nachbildung, ertragsverwendung, fondsoberkategorie, unterkategorie, fondsgesellschaft, verteilungNachBranchen, verteilungNachLaenderRegionen, greosstePositionen);
+        return Objects.hash(name, isin, gesamtkosten, fondswaehrung, fondsvermoegen, auflagedatum, jahre, sparplan, url, nachbildung, ertragsverwendung, fondsoberkategorie, unterkategorie, fondsgesellschaft, verteilungNachBranchen, verteilungNachLaenderRegionen, greosstePositionen);
     }
 
     @Override
@@ -134,7 +140,8 @@ public final class Wertpapier {
             ", fondswaehrung=" + fondswaehrung +
             ", fondsvermoegen='" + fondsvermoegen + '\'' +
             ", auflagedatum='" + auflagedatum + '\'' +
-            ", sparplan=" + sparplan +
+            ", jahre=" + jahre +
+            ", sparplan='" + sparplan + '\'' +
             ", url='" + url + '\'' +
             ", nachbildung='" + nachbildung + '\'' +
             ", ertragsverwendung='" + ertragsverwendung + '\'' +
@@ -155,6 +162,7 @@ public final class Wertpapier {
         private Waehrung fondswaehrung = Waehrung.NA;
         private String fondsvermoegen = NA;
         private String auflagedatum = NA;
+        private int jahre;
         private String sparplan = NA;
         private String url = NA;
         private String nachbildung = NA;
@@ -182,6 +190,7 @@ public final class Wertpapier {
             product.fondswaehrung = fondswaehrung;
             product.fondsvermoegen = fondsvermoegen;
             product.auflagedatum = auflagedatum;
+            product.jahre = jahre;
             product.sparplan = sparplan;
             product.url = url;
             product.nachbildung = nachbildung;
@@ -222,6 +231,11 @@ public final class Wertpapier {
 
         public Builder setAuflagedatum(final String auflagedatum) {
             this.auflagedatum = Validate.notEmpty(auflagedatum, "auflagedatum");
+            return this;
+        }
+
+        public Builder setJahre(final int jahre) {
+            this.jahre = Validate.greaterThanOrEqual(jahre, 0, "jahre");
             return this;
         }
 
