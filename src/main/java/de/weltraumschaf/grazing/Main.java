@@ -80,7 +80,7 @@ public final class Main extends InvokableAdapter {
     }
 
     private Collection<Wertpapier> extract(final CliOptions opts) throws ApplicationException {
-        final Collection<String> isins = new ArrayList<>(opts.getIsin());
+        Collection<String> isins = new ArrayList<>(opts.getIsin());
 
         if (!opts.getFile().isEmpty()) {
             final FileReader reader = new FileReader();
@@ -91,11 +91,20 @@ public final class Main extends InvokableAdapter {
             }
         }
 
+        isins = cleanseInput(isins);
+
         if (isins.isEmpty()) {
             throw new ApplicationException(ExitCodes.FATAL, "No ISINs given to scrape!");
         }
 
         return new Extractor(getIoStreams(), opts).extract(isins);
+    }
+
+    private Collection<String> cleanseInput(final Collection<String> isins) {
+        return isins.stream()
+            .map(String::trim)
+            .filter(isin -> !isin.isEmpty())
+            .collect(Collectors.toSet());
     }
 
 }
