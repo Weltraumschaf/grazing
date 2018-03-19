@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
+ * The main entry point class.
  */
 public final class Main extends InvokableAdapter {
 
@@ -28,7 +28,7 @@ public final class Main extends InvokableAdapter {
      * Version information.
      */
     private final Version version = new Version(Constants.BASE_PACKAGE_DIR + "/version.properties");
-    private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<CliOptions>("grazing", CliOptions.class);
+    private final JCommanderImproved<CliOptions> cliArgs = new JCommanderImproved<>(Constants.APP_NAME, CliOptions.class);
 
     /**
      * Dedicated constructor.
@@ -62,7 +62,7 @@ public final class Main extends InvokableAdapter {
         }
 
         if (opts.isHelp()) {
-            getIoStreams().println("Help: TODO");
+            getIoStreams().println(cliArgs.helpMessage(CliOptions.USAGE, CliOptions.DESCRIPTION, CliOptions.EXAMPLE));
             exit(0);
             return;
         }

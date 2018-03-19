@@ -9,11 +9,23 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * The CLI options of this tool.
  */
 @Parameters(commandDescription = "Creates a module scaffold.")
 @SuppressWarnings( {"unused", "FieldCanBeLocal"})
 public final class CliOptions {
+
+    public static final String USAGE = "-f file/with/isins.txt";
+    public static final String DESCRIPTION = "This tool grazes information about ETFs for given ISINs.";
+    public static final String EXAMPLE = String.format(
+        "Graze information for one particular ISIN:%n" +
+            "  $> %s -i ISIN%n%n" +
+            "  Graze information for multiple ISINs from a text file:%n" +
+            "  $> %s -f file/with/isins.txt%n%n" +
+            "  Graze multiple ISINs from file and write result to CSV file:%n" +
+            "  $> %s -f file/with/isins.txt -c file/to/save.csv%n%n",
+        Constants.APP_NAME, Constants.APP_NAME, Constants.APP_NAME
+    );
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
     @Parameter(names = {"-v", "--version"}, description = "Version.", help = true)
@@ -28,15 +40,15 @@ public final class CliOptions {
     private boolean debug;
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-i","--isin"}, description = "Scrape the ISIN URL.")
+    @Parameter(names = {"-i", "--isin"}, description = "Scrape the ISIN URL.")
     private List<String> isin = new ArrayList<>();
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-f","--file"}, description = "Give file with ISINs.")
+    @Parameter(names = {"-f", "--file"}, description = "Give file with ISINs.")
     private String file = "";
 
     @SuppressWarnings( {"CanBeFinal", "unused"})
-    @Parameter(names = {"-c","--csv"}, description = "Write result as CSV to given file.")
+    @Parameter(names = {"-c", "--csv"}, description = "Write result as CSV to given file.")
     private String csv = "";
 
     boolean isVersion() {
