@@ -8,7 +8,7 @@ $> cd grazing
 $> mvn clean install
 ```
 
-Or you can download the latest binary [here][bin]. For Linux/Unix users you only need the `grazing` binary. Just run it with `grazing -h`. Windows users need the the Jar file and execute it with `java -jar <JAR-FILE> -h`. This will give the output:
+Or you can download the latest binary [here][bin]. For Linux/Unix users you only need the `grazing` binary. Just run it with `grazing -h`. Windows users need the the Jar file and execute it with `java -jar grazing.jar -h`. This will give the output:
 
 ```
 Usage: grazing -f file/with/isins.txt

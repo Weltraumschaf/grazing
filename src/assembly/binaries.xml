@@ -10,16 +10,16 @@
 
     <includeBaseDirectory>false</includeBaseDirectory>
 
-    <fileSets>
-        <fileSet>
-            <directory>${project.build.directory}</directory>
-
-            <includes>
-                <include>${project.bin.executable}</include>
-                <include>${project.build.finalName}.jar</include>
-            </includes>
-
+    <files>
+        <file>
+            <source>${project.build.directory}/${project.bin.executable}</source>
             <outputDirectory>.</outputDirectory>
-        </fileSet>
-    </fileSets>
+        </file>
+
+        <file>
+            <source>${project.build.directory}/${project.build.finalName}.${project.packaging}</source>
+            <outputDirectory>.</outputDirectory>
+            <destName>${project.bin.executable}.${project.packaging}</destName>
+        </file>
+    </files>
 </assembly>
